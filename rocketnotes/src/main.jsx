@@ -4,13 +4,13 @@ import GlobalStyles from './styles/global'
 import theme from './styles/theme'
 
 import { ThemeProvider } from 'styled-components'
-import { SignUp } from './Pages/SignUp'
+import { New } from './Pages/New'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <GlobalStyles></GlobalStyles>
-      <SignUp/>
+      <New/>
     </ThemeProvider> 
   </React.StrictMode>
 )
