@@ -20,7 +20,7 @@ export function New(){
                     <Input placeholder="Título"></Input>
                     <TextArea placeholder="Observações"></TextArea>
                     <Section title="Links úteis">
-                        <NoteItem value="htt"></NoteItem>
+                        <NoteItem value="http"></NoteItem>
                         <NoteItem isNew placeholder="Novo link"></NoteItem>
                     </Section>
                     <Section title="Marcadores">
