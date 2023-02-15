@@ -5,14 +5,21 @@ import { Section } from '../../components/Section'
 import { Header } from '../../components/Header'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
-import { Link } from 'react-router-dom'
+
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
+import { api } from '../../services/api'
+
 export function New(){
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
     const [links, setLinks] = useState([])
     const [newLink, setNewLink] = useState("")
     const [tags, setTags] = useState([])
     const [newTag, setNewTag] = useState("")
+
+    const navigate = useNavigate()
 
     function handleAddLink(){
         setLinks(prevState => [...prevState, newLink])
@@ -32,6 +39,18 @@ export function New(){
     function handleRemoveTag(deleted){
         setTags(prevState => prevState.filter(tag => tag !== deleted))
     }
+
+    async function handleNewNote(){
+        await api.post("/notes", {
+            title,
+            description,
+            tags,
+            links
+        })
+
+        alert("Nota criada com sucesso!")
+        navigate("/")
+    }
     
     return(
         <Container>
@@ -42,8 +61,15 @@ export function New(){
                         <h1>Criar Nota</h1>
                         <Link to="/">voltar</Link>
                     </header>
-                    <Input placeholder="Título"></Input>
-                    <TextArea placeholder="Observações"></TextArea>
+                    <Input 
+                        placeholder="Título"
+                        onChange={e => setTitle(e.target.value)}>                        
+                    </Input>
+                    <TextArea 
+                        placeholder="Observações"
+                        onChange={e => setDescription(e.target.value)}
+                        >
+                    </TextArea>
                     <Section title="Links úteis">                        
                         {
                             links.map((link, index) => (
@@ -82,8 +108,10 @@ export function New(){
                             </NoteItem>
                         </div>
                     </Section>
-                    <Button title="Salvar"></Button>
-
+                    <Button 
+                        title="Salvar"
+                        onClick={handleNewNote}>
+                    </Button>
                 </Form>
             </main>
         </Container>
