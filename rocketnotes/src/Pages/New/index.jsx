@@ -6,8 +6,22 @@ import { Header } from '../../components/Header'
 import { Button } from '../../components/Button'
 import { Input } from '../../components/Input'
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export function New(){
+    const [links, setLinks] = useState([])
+    const [newLink, setNewLink] = useState("")
+
+    function handleAddLink(){
+        setLinks(prevState => [...prevState, newLink])
+        setNewLink("")
+    }
+
+    function handleRemoveLink(deleted){
+        setLinks(prevState => prevState.filter(link => link !== deleted))
+
+    }
+    
     return(
         <Container>
             <Header></Header>
@@ -19,9 +33,23 @@ export function New(){
                     </header>
                     <Input placeholder="Título"></Input>
                     <TextArea placeholder="Observações"></TextArea>
-                    <Section title="Links úteis">
-                        <NoteItem value="http"></NoteItem>
-                        <NoteItem isNew placeholder="Novo link"></NoteItem>
+                    <Section title="Links úteis">                        
+                        {
+                            links.map((link, index) => (
+                                <NoteItem
+                                    key={String(index)}
+                                    value={link}
+                                    onClick={() => handleRemoveLink(link)}>
+                                </NoteItem>
+                            ))
+                        }                     
+                        <NoteItem 
+                            isNew 
+                            placeholder="Novo Link"
+                            value={newLink}
+                            onChange={e => setNewLink(e.target.value)}
+                            onClick={handleAddLink}>
+                        </NoteItem>
                     </Section>
                     <Section title="Marcadores">
                         <div className='tags'>    
